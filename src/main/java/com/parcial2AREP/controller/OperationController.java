@@ -1,6 +1,8 @@
 package com.parcial2AREP.controller;
 
 import com.parcial2AREP.model.OperationResult;
+import com.parcial2AREP.service.HttpService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,6 +11,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/operaciones")
 public class OperationController {
+
+    @Autowired
+    private HttpService httpService;
 
     @GetMapping("/tribonacci")
     public OperationResult calcularTribonacci(@RequestParam int numero) {

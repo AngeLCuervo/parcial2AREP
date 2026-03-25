@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tribonacci AREP</title>
+</head>
+<body>
+
+<h2>Calcular Serie Tribonacci</h2>
+
+<input type="number" id="numero" placeholder="Ingrese un numero">
+<button onclick="calcular()">Calcular</button>
+
+<h3>Resultado:</h3>
+<p id="respuesta"></p>
+
+<script>
+    function calcular() {
+        let numero = document.getElementById("numero").value;
+
+        fetch(`/operaciones/tribonacci?numero=${numero}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("respuesta").innerText =
+                    "Operacion: " + data.operation + "\n" +
+                    "Entrada: " + data.input + "\n" +
+                    "Resultado: " + data.output;
+            })
+            .catch(error => console.error(error));
+    }
+</script>
+
+</body>
+</html>
