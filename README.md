@@ -1,178 +1,67 @@
 # parcial2AREP
 
-Ayuda
-Para invocar un servicios get desde java puede hacerlo de manera fácil con:
-     
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+## Para ejecutar:
 
-public class HttpConnectionExample {
+### Se levantan 2 instancias del servicio de tribonacci en diferenes consolas:
 
-    private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String GET_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=fb&apikey=Q1QZFVJQ21K7C6XM";
+1. mvn spring-boot:run "-Dspring-boot.run.arguments=--server.port=8081"
+2. mvn spring-boot:run "-Dspring-boot.run.arguments=--server.port=8082"
 
-    public static void main(String[] args) throws IOException {
+### Ejecutamos el proxy por el puerto 8080
+mvn spring-boot:run "-Dspring-boot.run.arguments=--server.port=8080"
 
-        URL obj = new URL(GET_URL);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        
-        //The following invocation perform the connection implicitly before getting the code
-        int responseCode = con.getResponseCode();
-        System.out.println("GET Response Code :: " + responseCode);
-        
-        if (responseCode == HttpURLConnection.HTTP_OK) { // success
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
+### Para probar ponemos lo siguiente por ejepmplo en el navegador:
+http://localhost:8080/proxy/tribonacci?numero=5
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-
-            // print result
-            System.out.println(response.toString());
-        } else {
-            System.out.println("GET request not worked");
-        }
-        System.out.println("GET DONE");
-    }
-
-} 
-     
-Para invocar servicios rest de forma asíncrona desde un cliente JS
-<!DOCTYPE html>
-<html>
-<head>
-<title>Form Example</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-<h1>Form with GET</h1>
-<form action="/hello">
-<label for="name">Name:</label><br>
-<input type="text" id="name" name="name" value="John"><br><br>
-<input type="button" value="Submit" onclick="loadGetMsg()">
-</form>
-<div id="getrespmsg"></div>
-<script>
-function loadGetMsg() {
-let nameVar = document.getElementById("name").value;
-const xhttp = new XMLHttpRequest();
-xhttp.onload = function() {
-document.getElementById("getrespmsg").innerHTML =
-this.responseText;
-}
-xhttp.open("GET", "/hello?name="+nameVar);
-xhttp.send();
-}
-</script>
-<h1>Form with POST</h1>
-<form action="/hellopost">
-<label for="postname">Name:</label><br>
-<input type="text" id="postname" name="name" value="John"><br><br>
-<input type="button" value="Submit" onclick="loadPostMsg(postname)">
-</form>
-<div id="postrespmsg"></div>
-<script>
-function loadPostMsg(name){
-let url = "/hellopost?name=" + name.value;
-fetch (url, {method: 'POST'})
-.then(x => x.text())
-.then(y => document.getElementById("postrespmsg").innerHTML = y);
-}
-</script>
-</body>
-</html>
-3. Aplicación Spring mínima
-
--------
-package co.edu.eci.lambda.springrest;
-
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class GreetingController {
-
-private static final String template = "Hello, %s!";
-private final AtomicLong counter = new AtomicLong();
-
-@GetMapping("/greeting")
-public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-return new Greeting(counter.incrementAndGet(), String.format(template, name));
-}
-}
--------
-package co.edu.eci.lambda.springrest;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class RestServiceApplication {
-
-public static void main(String[] args) {
-SpringApplication.run(RestServiceApplication.class, args);
-}
-
-}
----------
-package co.edu.eci.lambda.springrest;
+### Para ver la interfaz web accedemos a:
+http://localhost:8080/
 
 
-public record Greeting(long id, String content) { }
 
-    4. Ejemplo pom.xml de Spring con plugins
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-<modelVersion>4.0.0</modelVersion>
-<parent>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-parent</artifactId>
-<version>3.3.0</version>
-<relativePath/> <!-- lookup parent from repository -->
-</parent>
-<groupId>com.example</groupId>
-<artifactId>rest-service-complete</artifactId>
-<version>0.0.1-SNAPSHOT</version>
-<name>rest-service-complete</name>
-<description>Demo project for Spring Boot</description>
-<properties>
-<java.version>17</java.version>
-</properties>
-<dependencies>
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-web</artifactId>
-</dependency>
 
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-test</artifactId>
-<scope>test</scope>
-</dependency>
-</dependencies>
+Corriendo los servidores:
+<img width="559" height="247" alt="image" src="https://github.com/user-attachments/assets/57ba8688-dca4-41a9-a9bc-aa5eb445dd86" />
 
-<build>
-<plugins>
-<plugin>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-maven-plugin</artifactId>
-</plugin>
-</plugins>
-</build>
+ 
+Descripcion de como correrlO en EC2
 
-</project>
+Ingresamos a EC2
+ <img width="614" height="247" alt="image" src="https://github.com/user-attachments/assets/5bac1366-70ff-42ea-88b5-bd895065dda7" />
+
+
+Vamos a lanzar una instancia 
+ <img width="605" height="197" alt="image" src="https://github.com/user-attachments/assets/3cc22222-09c1-4c4d-91a0-dd9f2215819e" />
+
+ <img width="617" height="167" alt="image" src="https://github.com/user-attachments/assets/65f682e6-2ae7-48ad-80df-c1a5484e9fc5" />
+
+
+
+Seleccionamos la instancia creada y despues la conectamosl
+le damos luego a conectar la instancia
+<img width="604" height="238" alt="image" src="https://github.com/user-attachments/assets/2bac6dd6-ebce-4c9e-8a98-f9d8202b6ecb" />
+
+ 
+miramos que la llave este en una carpeta, la cual podamos hacer la coneccion 
+ <img width="604" height="279" alt="image" src="https://github.com/user-attachments/assets/dc7c2b71-336e-493c-831c-981b0f21224f" />
+
+
+Vamos a SSH client
+ <img width="468" height="247" alt="image" src="https://github.com/user-attachments/assets/df3bc88f-de25-47b1-9f20-301fc63220d4" />
+
+
+Y lo corremos desde la carpeta de la llave 
+ 
+
+Listo ya esta conectado 
+<img width="551" height="332" alt="image" src="https://github.com/user-attachments/assets/5e760db3-f891-4d19-8a5c-5af8d5ebd150" />
+
+
+Instalamos el  JDK for Amazon Corretto 17:
+Example
+sudo yum install java-17-amazon-corretto-devel
+
+ssh -i "arep2.pem" ec2-user@ec2-13-218-161-43.compute-1.amazonaws.com
+
+ec2-13-218-161-43.compute-1.amazonaws.com
+
+ssh -i "arep2.pem" ec2-13-218-161-43.compute-1.amazonaws.com
