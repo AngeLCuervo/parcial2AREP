@@ -2,25 +2,25 @@ package com.parcial2AREP.model;
 
 public class OperationResult {
 
-    private String tipoOperacion;
-    private int valorEntrada;
-    private String resultado;
+    private String operation;
+    private int input;
+    private String output;
 
-    public OperationResult(String tipoOperacion, int valorEntrada, String resultado) {
-        this.tipoOperacion = tipoOperacion;
-        this.valorEntrada = valorEntrada;
-        this.resultado = resultado;
+    public OperationResult(String operation, int input, String output) {
+        this.operation = operation;
+        this.input = input;
+        this.output = output;
     }
 
-    public String getTipoOperacion() {
-        return tipoOperacion;
+    public String getOperation() {
+        return operation;
     }
 
-    public int getValorEntrada() {
-        return valorEntrada;
+    public int getInput() {
+        return input;
     }
 
-    public String getResultado() {
-        return resultado;
+    public String getOutput() {
+        return output;
     }
 }
