@@ -65,3 +65,5 @@ ssh -i "arep2.pem" ec2-user@ec2-13-218-161-43.compute-1.amazonaws.com
 ec2-13-218-161-43.compute-1.amazonaws.com
 
 ssh -i "arep2.pem" ec2-13-218-161-43.compute-1.amazonaws.com
+
+Video demo por si no esta el de MOODLE: https://youtu.be/9WBU3Fo4Kt4?si=poV683_mW1ICUTTA
